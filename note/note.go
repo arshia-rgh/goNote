@@ -7,7 +7,7 @@ type Note struct {
 	Content string
 }
 
-func (*Note) New(title, content string) (*Note, error) {
+func New(title, content string) (*Note, error) {
 	if len(title) < 2 {
 		err := errors.New("note title cant be lower than 2 character")
 		return nil, err
@@ -19,8 +19,8 @@ func (*Note) New(title, content string) (*Note, error) {
 	}
 
 	return &Note{
-		title:   title,
-		content: content,
+		Title:   title,
+		Content: content,
 	}, nil
 
 }
