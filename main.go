@@ -17,6 +17,7 @@ func checkError(err error, message string) {
 func main() {
 	fileName, err := utils.GetUserData("Please enter your file name to save and read your notes (must suffix with .json)")
 	checkError(err, "Failed to get the file name")
+	utils.ClearTerminal()
 
 	for {
 
@@ -27,6 +28,7 @@ func main() {
 		fmt.Println("3 - Exit")
 
 		option, err := utils.GetUserData("Please enter your choice : ")
+		utils.ClearTerminal()
 		checkError(err, "Failed to get user input ")
 
 		if option == "1" {
@@ -35,6 +37,7 @@ func main() {
 
 			content, err := utils.GetUserData("Please enter the content of your note: ")
 			checkError(err, "Failed to get the content")
+			utils.ClearTerminal()
 
 			newNote, err := note.New(title, content)
 			checkError(err, "Failed to create new note")
@@ -46,6 +49,11 @@ func main() {
 
 			fmt.Printf("Your note saved to the %v file successfully\n", fileName)
 
+			fmt.Println("Select any key to redirect...")
+			fmt.Scanln()
+
+			utils.ClearTerminal()
+
 			continue
 
 		} else if option == "2" {
@@ -56,6 +64,7 @@ func main() {
 
 			fmt.Println("Select any key to redirect...")
 			fmt.Scanln()
+			utils.ClearTerminal()
 
 		} else if option == "3" {
 			fmt.Println("Goodbye...")
