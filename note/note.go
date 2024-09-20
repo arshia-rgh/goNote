@@ -3,8 +3,8 @@ package note
 import "errors"
 
 type Note struct {
-	title   string
-	content string
+	Title   string
+	Content string
 }
 
 func (*Note) New(title, content string) (*Note, error) {
