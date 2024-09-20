@@ -52,6 +52,8 @@ func main() {
 		} else if option == "2" {
 
 		} else if option == "3" {
+			fmt.Println("Goodbye...")
+			break
 
 		} else {
 			fmt.Println("Invalid option please try again")
