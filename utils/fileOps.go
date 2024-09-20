@@ -33,6 +33,8 @@ func WriteToFile(fileName string, note note.Note) error {
 }
 
 func ReadFromFile(fileName string) ([]note.Note, error) {
+	fileName = ensureJsonSuffix(fileName)
+
 	data, err := os.ReadFile(fileName)
 
 	if err != nil {

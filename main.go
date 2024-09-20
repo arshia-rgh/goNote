@@ -49,6 +49,13 @@ func main() {
 			continue
 
 		} else if option == "2" {
+			notes, err := utils.ReadFromFile(fileName)
+			checkError(err, "Failed to read from file")
+
+			fmt.Println(notes)
+
+			fmt.Println("Select any key to redirect...")
+			fmt.Scanln()
 
 		} else if option == "3" {
 			fmt.Println("Goodbye...")
