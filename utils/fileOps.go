@@ -8,6 +8,8 @@ import (
 )
 
 func WriteToFile(fileName string, note note.Note) error {
+
+	fileName = ensureJsonSuffix(fileName)
 	data, err := json.Marshal(note)
 
 	if err != nil {
