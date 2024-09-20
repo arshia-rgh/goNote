@@ -4,7 +4,15 @@ import (
 	"fmt"
 	"goNote/note"
 	"goNote/utils"
+	"os"
 )
+
+func checkError(err error, message string) {
+	if err != nil {
+		fmt.Printf("%s: %v\n", message, err)
+		os.Exit(1)
+	}
+}
 
 func main() {
 
@@ -17,53 +25,25 @@ func main() {
 		fmt.Println("3 - Exit")
 
 		option, err := utils.GetUserData("Please enter your choice : ")
+		checkError(err, "Failed to get user input ")
 
-		if err != nil {
-			fmt.Println(err)
-			return
-		}
 		if option == "1" {
-			var title string
-			var content string
+			title, err := utils.GetUserData("Please enter the title of your note: ")
+			checkError(err, "Failed to get title")
 
-			title, err = utils.GetUserData("Please enter the title of your note: ")
+			content, err := utils.GetUserData("Please enter the content of your note: ")
+			checkError(err, "Failed to get the content")
 
-			if err != nil {
-				fmt.Println(err)
-				return
-			}
-
-			content, err = utils.GetUserData("Please enter the content of your note: ")
-
-			if err != nil {
-				fmt.Println(err)
-				return
-			}
-			var newNote *note.Note
-
-			newNote, err = note.New(title, content)
-
-			if err != nil {
-				fmt.Println(err)
-				return
-			}
+			newNote, err := note.New(title, content)
+			checkError(err, "Failed to create new note")
 
 			fmt.Printf("New note added with %v title and following content:\n %v", newNote.Title, newNote.Content)
 
-			var fileName string
-			fileName, err = utils.GetUserData("Please enter your file name to save your notes (must suffix with .json)")
-
-			if err != nil {
-				fmt.Println(err)
-				return
-			}
+			fileName, err := utils.GetUserData("Please enter your file name to save your notes (must suffix with .json)")
+			checkError(err, "Failed to get the file name")
 
 			err = utils.WriteToFile(fileName, *newNote)
-
-			if err != nil {
-				fmt.Println(err)
-				return
-			}
+			checkError(err, "Failed to write to the file")
 
 			fmt.Printf("Your note saved to the %v file successfully\n", fileName)
 
@@ -74,6 +54,7 @@ func main() {
 		} else if option == "3" {
 
 		} else {
+			fmt.Println("Invalid option please try again")
 
 		}
 	}
