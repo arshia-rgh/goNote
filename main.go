@@ -37,7 +37,7 @@ func main() {
 			newNote, err := note.New(title, content)
 			checkError(err, "Failed to create new note")
 
-			fmt.Printf("New note added with %v title and following content:\n %v", newNote.Title, newNote.Content)
+			fmt.Printf("New note added with %v title and following content:\n %v\n", newNote.Title, newNote.Content)
 
 			fileName, err := utils.GetUserData("Please enter your file name to save your notes (must suffix with .json)")
 			checkError(err, "Failed to get the file name")
