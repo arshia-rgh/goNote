@@ -10,34 +10,53 @@ import (
 func WriteToFile(fileName string, note note.Note) error {
 
 	fileName = ensureJsonSuffix(fileName)
+
+	file, err := os.OpenFile(fileName, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
+
+	if err != nil {
+		return err
+	}
+	defer file.Close()
+
 	data, err := json.Marshal(note)
 
 	if err != nil {
 		return err
 	}
 
-	err = os.WriteFile(fileName, data, 0644)
+	_, err = file.Write(append(data, '\n'))
+
 	if err != nil {
 		return err
 	}
 	return nil
 }
 
-func ReadFromFile(fileName string) (note.Note, error) {
+func ReadFromFile(fileName string) ([]note.Note, error) {
 	data, err := os.ReadFile(fileName)
 
 	if err != nil {
-		return note.Note{}, err
+		return nil, err
 	}
 
-	var n note.Note
+	var notes []note.Note
 
-	err = json.Unmarshal(data, &n)
-	if err != nil {
-		return note.Note{}, err
+	entries := strings.Split(string(data), "\n")
+
+	for _, entry := range entries {
+		if entry == "" {
+			continue
+		}
+		var n note.Note
+		err = json.Unmarshal([]byte(entry), &n)
+		if err != nil {
+			return nil, err
+		}
+
+		notes = append(notes, n)
 	}
 
-	return n, nil
+	return notes, nil
 }
 
 func ensureJsonSuffix(fileName string) string {
