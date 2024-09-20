@@ -23,8 +23,21 @@ func WriteToFile(fileName string, note note.Note) error {
 	return nil
 }
 
-func ReadFromFile(fileName string) {
+func ReadFromFile(fileName string) (note.Note, error) {
+	data, err := os.ReadFile(fileName)
 
+	if err != nil {
+		return note.Note{}, err
+	}
+
+	var n note.Note
+
+	err = json.Unmarshal(data, &n)
+	if err != nil {
+		return note.Note{}, err
+	}
+
+	return n, nil
 }
 
 func ensureJsonSuffix(fileName string) string {
