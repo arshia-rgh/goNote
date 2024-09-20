@@ -15,6 +15,8 @@ func checkError(err error, message string) {
 }
 
 func main() {
+	fileName, err := utils.GetUserData("Please enter your file name to save and read your notes (must suffix with .json)")
+	checkError(err, "Failed to get the file name")
 
 	for {
 
@@ -38,9 +40,6 @@ func main() {
 			checkError(err, "Failed to create new note")
 
 			fmt.Printf("New note added with %v title and following content:\n %v\n", newNote.Title, newNote.Content)
-
-			fileName, err := utils.GetUserData("Please enter your file name to save your notes (must suffix with .json)")
-			checkError(err, "Failed to get the file name")
 
 			err = utils.WriteToFile(fileName, *newNote)
 			checkError(err, "Failed to write to the file")
