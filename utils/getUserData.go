@@ -1,16 +1,23 @@
 package utils
 
-import "fmt"
+import (
+	"bufio"
+	"fmt"
+	"os"
+	"strings"
+)
 
 func GetUserData(prompt string) (string, error) {
 	fmt.Println(prompt)
-	var input string
-	_, err := fmt.Scan(&input)
+
+	reader := bufio.NewReader(os.Stdin)
+
+	input, err := reader.ReadString('\n')
 
 	if err != nil {
 		return "", err
 	}
 
-	return input, nil
+	return strings.TrimSpace(input), nil
 
 }
