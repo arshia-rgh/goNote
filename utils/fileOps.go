@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"goNote/note"
 	"os"
+	"strings"
 )
 
 func WriteToFile(fileName string, note note.Note) error {
@@ -20,6 +21,14 @@ func WriteToFile(fileName string, note note.Note) error {
 	return nil
 }
 
-func ReadFromFile() {
+func ReadFromFile(fileName string) {
 
+}
+
+func ensureJsonSuffix(fileName string) string {
+	if !strings.HasSuffix(fileName, ".json") {
+		fileName += ".json"
+	}
+
+	return fileName
 }
