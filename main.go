@@ -7,13 +7,6 @@ import (
 	"os"
 )
 
-func checkError(err error, message string) {
-	if err != nil {
-		fmt.Printf("%s: %v\n", message, err)
-		os.Exit(1)
-	}
-}
-
 func main() {
 	fileName, err := utils.GetUserData("Please enter your file name to save and read your notes (must suffix with .json)")
 	checkError(err, "Failed to get the file name")
@@ -74,5 +67,12 @@ func main() {
 			fmt.Println("Invalid option please try again")
 
 		}
+	}
+}
+
+func checkError(err error, message string) {
+	if err != nil {
+		fmt.Printf("%s: %v\n", message, err)
+		os.Exit(1)
 	}
 }
