@@ -1,6 +1,7 @@
 package utils
 
 import (
+	"bufio"
 	"encoding/json"
 	"goNote/note"
 	"os"
@@ -32,30 +33,52 @@ func WriteToFile(fileName string, note note.Note) error {
 	return nil
 }
 
-func ReadFromFile(fileName string) ([]note.Note, error) {
-	fileName = ensureJsonSuffix(fileName)
+//func ReadFromFile(fileName string) ([]note.Note, error) {
+//	fileName = ensureJsonSuffix(fileName)
+//
+//	data, err := os.ReadFile(fileName)
+//
+//	if err != nil {
+//		return nil, err
+//	}
+//
+//	var notes []note.Note
+//
+//	entries := strings.Split(string(data), "\n")
+//
+//	for _, entry := range entries {
+//		if entry == "" {
+//			continue
+//		}
+//		var n note.Note
+//		err = json.Unmarshal([]byte(entry), &n)
+//		if err != nil {
+//			return nil, err
+//		}
+//
+//		notes = append(notes, n)
+//	}
+//
+//	return notes, nil
+//}
 
-	data, err := os.ReadFile(fileName)
+func ReadFromFile(fileName string) ([]note.Note, error) {
+	file, err := os.Open(fileName)
 
 	if err != nil {
 		return nil, err
 	}
-
+	scanner := bufio.NewScanner(file)
 	var notes []note.Note
 
-	entries := strings.Split(string(data), "\n")
-
-	for _, entry := range entries {
-		if entry == "" {
-			continue
-		}
+	for scanner.Scan() {
 		var n note.Note
-		err = json.Unmarshal([]byte(entry), &n)
+		err := json.Unmarshal([]byte(scanner.Text()), &n)
 		if err != nil {
 			return nil, err
 		}
+		notes = append(notes)
 
-		notes = append(notes, n)
 	}
 
 	return notes, nil
